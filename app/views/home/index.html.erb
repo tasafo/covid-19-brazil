@@ -1,0 +1,21 @@
+<div class="mdc-layout-grid">
+  <div class="mdc-layout-grid__inner">
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
+      <h1>Total de casos: <%= @total_confirmed %></h1>
+
+      <h2>Total mortes: <%= @deaths %></h2>
+
+      <ul class="mdc-list">
+        <% @states.each do |state| %>
+          <li class="mdc-list-item">
+            <%= state.uf %>
+            <span class='mdc-list-item__meta'><%= state.confirmed %></span>
+            
+          </li>
+        <% end %>
+      </ul>
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9">
+
+    </div>
+  </div>
+</div>
