@@ -1,0 +1,16 @@
+.sidebar h1{
+  font-size: 24px;
+}
+
+.sidebar h2{
+  font-size: 18px;
+}
+
+.sidebar h3{
+  font-size: 14px;
+}
+
+.sidebar .total-confirmed{
+  font-size: 36px;
+  color: #E65100;
+}

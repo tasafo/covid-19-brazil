@@ -1,9 +1,15 @@
 <div class="mdc-layout-grid">
   <div class="mdc-layout-grid__inner">
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4">
-      <h1>Total de casos: <%= @total_confirmed %></h1>
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3 sidebar">
+      <h1 class="mdc-typography--headline3">COVID-19 Brasil</h1>
+      
+      <h2 class="mdc-typography--headline5">Total de casos confirmados</h2>
 
-      <h2>Total mortes: <%= @deaths %></h2>
+      <span class="total-confirmed"><%= @total_confirmed %></span>
+
+      <h3>Total mortes: <%= @deaths %></h2>
+
+      <h3>Casos recuperados: <%= @recovered %></h2>
 
       <ul class="mdc-list">
         <% @states.each do |state| %>
@@ -14,8 +20,8 @@
         <% end %>
       </ul>
     </div>
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8">
-      <canvas id="myChart" width="400" height="400"></canvas>
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9">
+      <canvas id="myChart" width="400" height="200"></canvas>
     </div>
   </div>
 </div>

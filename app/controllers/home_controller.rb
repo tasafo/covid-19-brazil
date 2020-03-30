@@ -4,6 +4,7 @@ class HomeController < ApplicationController
     @states = State.all
     @total_confirmed = @brazil.confirmed
     @deaths = @brazil.deaths
+    @recovered = @brazil.recovered
     @cases_by_date = CasesByDate.all.order_by(date: :asc)
   end
 end
