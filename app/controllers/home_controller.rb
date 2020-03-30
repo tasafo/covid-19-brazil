@@ -1,7 +1,9 @@
 class HomeController < ApplicationController
   def index
+    @brazil = Country.find_by(name: 'Brazil')
     @states = State.all
-    @total_confirmed = @states.sum(&:confirmed)
-    @deaths = @states.sum(&:deaths)
+    @total_confirmed = @brazil.confirmed
+    @deaths = @brazil.deaths
+    @cases_by_date = CasesByDate.all.order_by(date: :asc)
   end
 end

@@ -14,7 +14,3 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-
-const MDCMenu = mdc.menu.MDCMenu;
-const menu = new MDCMenu(document.querySelector('.mdc-menu'));
-menu.open = true;

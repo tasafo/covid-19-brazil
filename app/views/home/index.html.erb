@@ -1,6 +1,6 @@
 <div class="mdc-layout-grid">
   <div class="mdc-layout-grid__inner">
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4">
       <h1>Total de casos: <%= @total_confirmed %></h1>
 
       <h2>Total mortes: <%= @deaths %></h2>
@@ -8,14 +8,22 @@
       <ul class="mdc-list">
         <% @states.each do |state| %>
           <li class="mdc-list-item">
-            <%= state.uf %>
-            <span class='mdc-list-item__meta'><%= state.confirmed %></span>
-            
+            <%= state.name %>
+            <span class='mdc-list-item__meta'><%= state.cases %></span>
           </li>
         <% end %>
       </ul>
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9">
-
+    </div>
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8">
+      <canvas id="myChart" width="400" height="400"></canvas>
     </div>
   </div>
 </div>
+<% content_for :javascript do %>
+  <script>
+    var DATES = <%= raw @cases_by_date.map{ |c| c.date.to_s } %>
+    var CASES = <%= raw @cases_by_date.map{ |c| c.cases } %>
+    var DEATHS = <%= raw @cases_by_date.map{ |c| c.deaths } %>
+  </script>
+  <%= javascript_pack_tag 'chart', 'data-turbolinks-track': 'reload' %>
+<% end %>
