@@ -14,3 +14,26 @@
   font-size: 36px;
   color: #E65100;
 }
+
+.mdc-data-table{
+  width: 100%;
+}
+
+ul.mdc-list {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+li.mdc-list-item a{
+  display: block;
+  color: rgb(53, 53, 53);
+  padding: 8px 0px;
+  text-decoration: none;
+  width: 100%;
+}
+
+li.mdc-list-item a .mdc-list-item__meta{
+  float: right;
+  padding: 2px;
+}
