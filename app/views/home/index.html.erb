@@ -1,9 +1,11 @@
-<canvas id="myChart" width="400" height="200"></canvas>
-<% content_for :javascript do %>
-  <script>
-    var DATES = <%= raw @cases_by_date.map{ |c| c.date.to_s } %>
-    var CASES = <%= raw @cases_by_date.map{ |c| c.cases } %>
-    var DEATHS = <%= raw @cases_by_date.map{ |c| c.deaths } %>
-  </script>
-  <%= javascript_pack_tag 'chart', 'data-turbolinks-track': 'reload' %>
-<% end %>
+<%#= timeline [
+  ["Washington", "1789-04-29", "1797-03-03"],
+  ["Adams", "1797-03-03", "1801-03-03"],
+  ["Jefferson", "1801-03-03", "1809-03-03"]
+] %>
+
+<%= geo_chart ([
+  ["Rome", "1"],
+  ["Milan", "2"],
+  ["Naples", "3"]
+]) %>
