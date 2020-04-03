@@ -1,4 +1,4 @@
-<canvas id="myChart" width="400" height="200"></canvas>
+<canvas id="casesByDateChat"></canvas>
 <% content_for :javascript do %>
   <script>
     var DATES = <%= raw @cases_by_date.map{ |c| c.date.to_s } %>
