@@ -211,12 +211,11 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
-  tzinfo-data
   web-console (>= 3.3.0)
   webpacker (= 4.2.0)
 
 RUBY VERSION
-   ruby 2.7.0p0
+   ruby 2.7.1p83
 
 BUNDLED WITH
    2.1.4
