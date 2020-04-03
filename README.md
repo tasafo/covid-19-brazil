@@ -1,24 +1,41 @@
-# README
+# Covid-19 Brazil
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Pré-requisitos
+- [Ruby 2.7.1](http://www.ruby-lang.org)
+- [Yarn](https://yarnpkg.com/getting-started/install)
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-Things you may want to cover:
+## Ambiente de desenvolvimento
 
-* Ruby version
+### Configuração
 
-* System dependencies
+Em um terminal, execute:
 
-* Configuration
+```bash
+bundle install
 
-* Database creation
+yarn install
 
-* Database initialization
+rails db:seed
+```
 
-* How to run the test suite
+### Execução
 
-* Services (job queues, cache servers, search engines, etc.)
+Em um terminal, para subir containers MongoDB e Redis, execute:
 
-* Deployment instructions
+```bash
+docker-compose up
+```
 
-* ...
+Em outro terminal, execute:
+
+```bash
+rails server
+```
+
+No navegador, abra o endereço:
+
+```
+http://localhost:3000
+```
