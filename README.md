@@ -6,7 +6,7 @@
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Ambiende de desenvolvimento
+## Ambiente de desenvolvimento
 
 ### Configuração
 
