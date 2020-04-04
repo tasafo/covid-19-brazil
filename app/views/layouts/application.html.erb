@@ -4,7 +4,7 @@
     <title>Coronavirus</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" >
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
@@ -15,18 +15,20 @@
   </head>
 
   <body class="mdc-typography">
-    <div class="mdc-layout-grid">
+    <div id="container" class="mdc-layout-grid">
       <div class="mdc-layout-grid__inner">
-        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3 sidebar">
-          <h1 class="mdc-typography--headline3">COVID-19 Brasil</h1>
+        <div class="mdc-layout-grid__cell bottom mdc-layout-grid__cell--span-3 mdc-layout-grid__cell--span-12-phone sidebar">
+          <h1 class="mdc-typography--headline3"><a href="/">COVID-19 Brasil</a></h1>
           
-          <h2 class="mdc-typography--headline5">Total de casos confirmados</h2>
+          <h2 class="mdc-typography--headline4">Total de casos confirmados</h2>
 
-          <span class="total-confirmed"><%= @total_confirmed %></span>
+          <span class="total-confirmed"><%= number_with_delimiter(@total_confirmed, delimiter: '.') %></span>
 
-          <h3>Total mortes: <%= @deaths %></h2>
+          <h3 class="mdc-typography--headline5">Total mortes: <%= @deaths %></h2>
 
-          <h3>Casos recuperados: <%= @recovered %></h2>
+          <h3 class="mdc-typography--headline5">Casos recuperados: <%= @recovered %></h2>
+
+          <span class="mdc-typography--caption">Fonte: <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a></span>
 
           <ul class="mdc-list">
             <% @states.each do |state| %>
@@ -39,12 +41,13 @@
             <% end %>
           </ul>
         </div>
-        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-9">
+        <div class="main-content top mdc-layout-grid__cell mdc-layout-grid__cell--span-9-desktop mdc-layout-grid__cell--span-12-phone">
           <%= yield %>
         </div>
       </div>
     </div>
   </body>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'main', 'data-turbolinks-track': 'reload' %>
   <%= yield :javascript %>
 </html>
