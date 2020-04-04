@@ -41,4 +41,13 @@ class City
       end
     end
   end
+
+  def self.deaths_by_uf
+    deaths_by_uf = [['State', 'Views']]
+    grouped_cities = City.all.group_by {|city| city.uf}
+    grouped_cities.each do |uf,cities|
+      deaths_by_uf << ["BR-#{uf}", cities.sum { |c| c.deaths }]
+    end
+    deaths_by_uf
+  end
 end
