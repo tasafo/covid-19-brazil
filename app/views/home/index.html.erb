@@ -1,6 +1,7 @@
 
 
 <canvas id="casesByDateChat"></canvas>
+ <div id="chart_div"></div>
 <div>
   <span class="mdc-typography--caption">Fonte: <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a></span>
 <div>
@@ -9,6 +10,7 @@
     var DATES = <%= raw @cases_by_date.map{ |c| c.date.to_s } %>
     var CASES = <%= raw @cases_by_date.map{ |c| c.cases } %>
     var DEATHS = <%= raw @cases_by_date.map{ |c| c.deaths } %>
+    var DEATHS_BY_UF = <%= raw @deaths_by_uf.map{ |c| c} %>
   </script>
   <%= javascript_pack_tag 'chart', 'data-turbolinks-track': 'reload' %>
 <% end %>
