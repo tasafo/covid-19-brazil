@@ -17,6 +17,8 @@ bundle install
 
 yarn install
 
+rails db:mongoid:create_indexes
+
 rails db:seed
 ```
 

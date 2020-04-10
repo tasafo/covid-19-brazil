@@ -6,27 +6,29 @@ class State
 
   field :uf, type: String
   field :name, type: String
-  field :deaths, type: Integer
-  field :cases, type: Integer
-  field :suspects, type: Integer
-  field :refuses, type: Integer
+  field :deaths, type: Integer, default: 0
+  field :cases, type: Integer, default: 0
+  field :suspects, type: Integer, default: 0
+  field :refuses, type: Integer, default: 0
   field :datetime, type: DateTime
 
   index({ uf: 1 }, { background: true })
 
-  def self.setup
+  def self.setup(dataset = nil)
+    results = dataset.nil? ? Api::BrasilIo.dataset(1) : dataset
+    states_log = results.select { |h| h['place_type'] == 'state' && h['is_last'] }
+
     covid = Api::Covid19Brazil.new
     data = covid.states
-
-    results = Api::BrasilIo.dataset(1)
-    states_log = results.select { |h| h['place_type'] == 'state' && h['is_last'] }
 
     data.each do |state_data|
       state = State.find_by(uf: state_data['uf'])
 
       state_log = states_log.find { |h| h['state'] == state_data['uf'] }
 
-      updated_params = {
+      params = {
+        uf: state_data['uf'],
+        name: state_data['state'],
         cases: state_log['confirmed'],
         deaths: state_log['deaths'],
         suspects: state_data['suspects'],
@@ -34,15 +36,10 @@ class State
         datetime: state_data['datetime']
       }
 
-      created_params = {
-        uf: state_data['uf'],
-        name: state_data['state']
-      }
-
       if state.present?
-        state.update!(updated_params)
+        state.update!(params)
       else
-        State.create!(created_params.merge(updated_params))
+        State.create!(params)
       end
     end
   end

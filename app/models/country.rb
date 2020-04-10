@@ -17,9 +17,11 @@ class Country
 
     country = Country.find_by(name: data['country'])
 
+    last_cases_by_dates = CasesByDate.last
+
     params = {
       name: data['country'],
-      deaths: data['deaths'],
+      deaths: last_cases_by_dates.deaths,
       confirmed: data['confirmed'],
       recovered: data['recovered'],
       active: data['cases'],

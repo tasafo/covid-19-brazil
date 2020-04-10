@@ -12,6 +12,6 @@ class Api::Covid19Brazil
   end
 
   def by_date(date)
-    self.class.get("/brazil/#{date}")['data']
+    self.class.get("/brazil/#{date.delete('-')}")['data']
   end
 end

@@ -17,8 +17,9 @@ class City
   index({ ibge_code: 1 }, { background: true })
   index({ uf: 1 }, { background: true })
 
-  def self.setup
-    results = Api::BrasilIo.dataset(1)
+  def self.setup(dataset = nil)
+    results = dataset.nil? ? Api::BrasilIo.dataset(1) : dataset
+
     cities_log = results.select { |h| h['place_type'] == 'city' }.group_by{ |h| h['city_ibge_code'] }
 
     cities_log.each do |ibge_code, cities_row|
