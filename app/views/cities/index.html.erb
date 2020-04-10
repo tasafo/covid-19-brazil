@@ -1,4 +1,3 @@
-
 <h1 class="mdc-typography--headline5"><%= @state.name %></h1>
 
 <div>
@@ -25,5 +24,13 @@
       </tr>
     <% end %>
     </tbody>
+    <tfoot>
+      <tr class="mdc-data-table__row">
+        <td class="mdc-data-table__header-cell">TOTAL</td>
+        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= @confirmed_total %></td>
+        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= @deaths_total %></td>
+        <td class="mdc-data-table__cell"></td>
+      </tr>
+    </tfoot>
   </table>
 </div>

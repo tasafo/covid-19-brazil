@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Coronavirus</title>
+    <title>COVID-19 Brasil</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" >
@@ -9,7 +9,6 @@
     <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
     <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
-    
   </head>
 
   <body class="mdc-typography">
@@ -17,7 +16,7 @@
       <div class="mdc-layout-grid__inner">
         <div class="mdc-layout-grid__cell bottom mdc-layout-grid__cell--span-3 mdc-layout-grid__cell--span-12-phone sidebar">
           <h1 class="mdc-typography--headline3"><a href="/">COVID-19 Brasil</a></h1>
-          
+
           <h2 class="mdc-typography--headline4">Total de casos confirmados</h2>
 
           <span class="total-confirmed"><%= number_with_delimiter(@total_confirmed, delimiter: '.') %></span>
@@ -31,7 +30,7 @@
           <ul class="mdc-list">
             <% @states.each do |state| %>
               <li class="mdc-list-item">
-                <%= link_to state_cities_path(state) do %>
+                <%= link_to state_cities_path(state.uf) do %>
                   <%= state.name %>
                   <span class='mdc-list-item__meta'><%= state.cases %></span>
                 <% end %>

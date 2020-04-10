@@ -1,14 +1,15 @@
-
-
 <canvas id="casesByDateChat"></canvas>
 <div>
-  <span class="mdc-typography--caption">Fonte: <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a></span>
+  <span class="mdc-typography--caption">
+    <strong>Ano:</strong> <%= Date.today.year %><br/>
+    <strong>Fonte:</strong> <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
+  </span>
 <div>
 <% content_for :javascript do %>
   <script>
-    var DATES = <%= raw @cases_by_date.map{ |c| c.date.to_s } %>
-    var CASES = <%= raw @cases_by_date.map{ |c| c.cases } %>
-    var DEATHS = <%= raw @cases_by_date.map{ |c| c.deaths } %>
+    var DATES = <%= raw @cases_by_date.map { |c| c.date.strftime('%d/%m') } %>
+    var CASES = <%= raw @cases_by_date.map { |c| c.cases } %>
+    var DEATHS = <%= raw @cases_by_date.map { |c| c.deaths } %>
   </script>
   <%= javascript_pack_tag 'chart', 'data-turbolinks-track': 'reload' %>
 <% end %>
