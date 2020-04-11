@@ -14,16 +14,17 @@ class CasesByDate
 
     today = Date.parse(Time.zone.now.strftime('%Y-%m-%d'))
 
-    initial_date = CasesByDate.count.zero? ? Date.parse('2020-02-25') : today - 1
+    initial_date = CasesByDate.count.zero? ? Date.parse('2020-02-25') : today
 
     date_range = (initial_date..today).map { |d| d.strftime('%Y-%m-%d') }
 
-    date_range.each_with_index do |date, index|
+    date_range.each do |date|
       cases = covid.by_date(date)
 
-      count = 0
+      day = 0
       while cases.empty? do
-        cases = covid.by_date(date_range[index - count += 1])
+        prior_date = (Date.parse(date) - day += 1).to_s
+        cases = covid.by_date(prior_date)
       end
 
       cases_by_date = CasesByDate.find_by(date: date)
