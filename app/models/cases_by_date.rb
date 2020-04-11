@@ -12,9 +12,11 @@ class CasesByDate
   def self.setup
     covid = Api::Covid19Brazil.new
 
-    initial_date = CasesByDate.count.zero? ? Date.parse('2020-02-25') : Date.today
+    today = Date.parse(Time.zone.now.strftime('%Y-%m-%d'))
 
-    date_range = (initial_date..Date.today).map { |d| d.strftime('%Y-%m-%d') }
+    initial_date = CasesByDate.count.zero? ? Date.parse('2020-02-25') : today
+
+    date_range = (initial_date..today).map { |d| d.strftime('%Y-%m-%d') }
 
     date_range.each_with_index do |date, index|
       cases = covid.by_date(date)
