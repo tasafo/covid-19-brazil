@@ -4,6 +4,6 @@ City.setup(dataset)
 
 State.setup(dataset)
 
-Country.brazil_setup
-
 CasesByDate.setup
+
+Country.brazil_setup
