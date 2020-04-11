@@ -7,3 +7,5 @@ State.setup
 CasesByDate.setup
 
 Country.brazil_setup
+
+City.fill_coordinates

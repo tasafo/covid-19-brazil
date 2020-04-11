@@ -8,6 +8,7 @@ class Country
   field :recovered, type: Integer, default: 0
   field :active, type: Integer, default: 0
   field :datetime, type: DateTime
+  field :coordinates, type: Array
 
   index({ name: 1 }, { background: true })
 
@@ -23,7 +24,8 @@ class Country
       confirmed: data['confirmed'],
       recovered: data['recovered'],
       active: data['cases'],
-      datetime: data['updated_at']
+      datetime: data['updated_at'],
+      coordinates: Geocoder.search(data['country']).first&.coordinates
     }
 
     if country.present?

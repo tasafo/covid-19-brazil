@@ -48,9 +48,9 @@ a{
 ul.mdc-list {
   margin: 0;
   padding: 0;
-  width: 100%; 
+  width: 100%;
   height: 100%;
-  overflow-y: scroll; 
+  overflow-y: scroll;
   margin-right: -50px; /* Maximum width of scrollbar */
   padding-right: 50px;
 }
@@ -74,14 +74,27 @@ li.mdc-list-item a .mdc-list-item__meta{
   padding: 2px;
 }
 
-
 @media screen and (max-width: 450px) {
   .sidebar{
     position: relative;
-
   }
 
   .main-content{
     margin: 10px 0 0 0;
   }
+}
+
+#location-map{
+  background: #fff;
+  border: none;
+  height: 1100px;
+  width: 100%;
+
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+#location-map img {
+  max-width: initial;
 }

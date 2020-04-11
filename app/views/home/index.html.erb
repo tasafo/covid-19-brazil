@@ -11,3 +11,23 @@
   </script>
   <%= javascript_pack_tag 'chart', 'data-turbolinks-track': 'reload' %>
 <% end %>
+
+<hr/>
+
+<div id="location-map"></div>
+
+<script type="text/javascript">
+  var map = L.map('location-map').setView([<%= @brazil.coordinates[0] %>, <%= @brazil.coordinates[1] %>], 5);
+
+  mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; ' + mapLink,
+    maxZoom: 20,
+  }).addTo(map);
+
+  <% @cities.each do |city| %>
+    L.marker(L.latLng(<%= city.coordinates %>)).addTo(map);
+  <% end %>
+</script>

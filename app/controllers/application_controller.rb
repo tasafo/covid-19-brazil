@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   def load_main
     @brazil = Country.find_by(name: 'Brazil')
     @states = State.all
+    @cities = City.all
     @total_confirmed = @brazil.confirmed
     @deaths = @brazil.deaths
     @recovered = @brazil.recovered

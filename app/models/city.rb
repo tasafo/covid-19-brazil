@@ -13,6 +13,7 @@ class City
   field :date, type: Date
   field :death_rate, type: BigDecimal, default: 0
   field :estimated_population_2019, type: Integer, default: 0
+  field :coordinates, type: Array
 
   index({ ibge_code: 1 }, { background: true })
   index({ uf: 1 }, { background: true })
@@ -48,6 +49,16 @@ class City
       else
         City.create!(created_params.merge(updated_params))
       end
+    end
+  end
+
+  def self.fill_coordinates
+    City.where(:coordinates.in => [nil]).each do |city|
+      state = State.find_by(uf: city.uf)
+
+      coordinates = Geocoder.search("#{city.name}, #{state.name}, Brazil").first&.coordinates
+
+      city.update!(coordinates: coordinates) if coordinates
     end
   end
 end
