@@ -1,8 +1,10 @@
 <canvas id="casesByDateChat"></canvas>
 <div>
   <span class="mdc-typography--caption"><strong>Ano:</strong> <%= Time.zone.now.year %></span><br/>
-  <span class="mdc-typography--caption"><strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a></span>
-<div>
+  <span class="mdc-typography--caption">
+    <strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a>
+  </span>
+</div>
 <% content_for :javascript do %>
   <script>
     var DATES = <%= raw @cases_by_date.map { |c| c.date.strftime('%d/%m') } %>
@@ -12,9 +14,16 @@
   <%= javascript_pack_tag 'chart', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
-<hr/>
+<br/><hr/><br/>
 
 <div id="location-map"></div>
+
+<div>
+  <span class="mdc-typography--caption"><strong>Ano:</strong> <%= Time.zone.now.year %></span><br/>
+  <span class="mdc-typography--caption">
+    <strong>Fonte:</strong> <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
+  </span>
+</div>
 
 <script type="text/javascript">
   var map = L.map('location-map').setView([<%= @brazil.coordinates[0] %>, <%= @brazil.coordinates[1] %>], 5);
@@ -28,6 +37,11 @@
   }).addTo(map);
 
   <% @cities.each do |city| %>
-    L.marker(L.latLng(<%= city.coordinates %>)).addTo(map);
+    <% unless city.coordinates.nil? %>
+      L.marker(
+        L.latLng(<%= city.coordinates[0] %>, <%= city.coordinates[1] %>),
+        { title: '<%= "#{city.name} - #{city.uf}" %>\nCasos: <%= city.confirmed %>\nMortes: <%= city.deaths %>' }
+      ).addTo(map);
+    <% end %>
   <% end %>
 </script>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR" dir="ltr">
   <head>
     <title>COVID-19 Brasil</title>
+    <meta charset="utf-8">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" >
@@ -33,8 +34,13 @@
 
           <h3 class="mdc-typography--headline5">Casos recuperados: <%= number_with_delimiter(@recovered, delimiter: '.') %></h3>
 
-          <span class="mdc-typography--caption"><strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a></span>
+          <span class="mdc-typography--caption">
+            <strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a>
+          </span>
 
+          <br/><br/>
+
+          <center><h2>Estados</h2></center>
           <hr/>
 
           <ul class="mdc-list">
