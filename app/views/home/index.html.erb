@@ -1,9 +1,7 @@
 <canvas id="casesByDateChat"></canvas>
 <div>
-  <span class="mdc-typography--caption">
-    <strong>Ano:</strong> <%= Date.today.year %><br/>
-    <strong>Fonte:</strong> <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
-  </span>
+  <span class="mdc-typography--caption"><strong>Ano:</strong> <%= Time.zone.now.year %></span><br/>
+  <span class="mdc-typography--caption"><strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a></span>
 <div>
 <% content_for :javascript do %>
   <script>

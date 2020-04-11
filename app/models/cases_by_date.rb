@@ -21,28 +21,24 @@ class CasesByDate
     date_range.each_with_index do |date, index|
       cases = covid.by_date(date)
 
-      if cases.empty?
-        cases = covid.by_date(date_range[index - 1])
-      end
+      cases = covid.by_date(date_range[index - 1]) if cases.empty?
 
-      cases_by_date = CasesByDate.find_by(date: date)
+      unless cases.empty?
+        cases_by_date = CasesByDate.find_by(date: date)
 
-      total = cases.sum { |h| h['cases'] }
-      deaths = cases.sum { |h| h['deaths'] }
-      suspects = cases.sum { |h| h['suspects'] }
+        total = cases.sum { |h| h['cases'] }
+        deaths = cases.sum { |h| h['deaths'] }
+        suspects = cases.sum { |h| h['suspects'] }
 
-      updated_params = {
-        cases: total,
-        suspects: suspects,
-        deaths: deaths
-      }
+        updated_params = { cases: total, suspects: suspects, deaths: deaths }
 
-      created_params = { date: date }
+        created_params = { date: date }
 
-      if cases_by_date.present?
-        cases_by_date.update!(updated_params)
-      else
-        CasesByDate.create!(created_params.merge(updated_params))
+        if cases_by_date.present?
+          cases_by_date.update!(updated_params)
+        else
+          CasesByDate.create!(created_params.merge(updated_params))
+        end
       end
     end
   end

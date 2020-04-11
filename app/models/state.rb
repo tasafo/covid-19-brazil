@@ -14,23 +14,18 @@ class State
 
   index({ uf: 1 }, { background: true })
 
-  def self.setup(dataset = nil)
-    results = dataset.nil? ? Api::BrasilIo.dataset(1) : dataset
-    states_log = results.select { |h| h['place_type'] == 'state' && h['is_last'] }
-
+  def self.setup
     covid = Api::Covid19Brazil.new
     data = covid.states
 
     data.each do |state_data|
       state = State.find_by(uf: state_data['uf'])
 
-      state_log = states_log.find { |h| h['state'] == state_data['uf'] }
-
       params = {
         uf: state_data['uf'],
         name: state_data['state'],
-        cases: state_log['confirmed'],
-        deaths: state_log['deaths'],
+        cases: state_data['cases'],
+        deaths: state_data['deaths'],
         suspects: state_data['suspects'],
         refuses: state_data['refuses'],
         datetime: state_data['datetime']
