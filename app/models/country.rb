@@ -17,11 +17,9 @@ class Country
 
     country = Country.find_by(name: data['country'])
 
-    last_cases_by_dates = CasesByDate.order_by(date: :desc).first
-
     params = {
       name: data['country'],
-      deaths: last_cases_by_dates.deaths,
+      deaths: data['deaths'],
       confirmed: data['confirmed'],
       recovered: data['recovered'],
       active: data['cases'],
