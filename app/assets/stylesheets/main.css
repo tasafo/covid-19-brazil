@@ -22,6 +22,11 @@ a{
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   height: 100%;
+  padding-bottom: 250px;
+}
+
+.sidebar hr{
+  margin: 20px 0 0 0;
 }
 
 .sidebar h1{
@@ -45,7 +50,7 @@ a{
   width: 100%;
 }
 
-ul.mdc-list {
+.sidebar ul.mdc-list {
   margin: 0;
   padding: 0;
   width: 100%;
