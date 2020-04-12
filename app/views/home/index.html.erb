@@ -39,10 +39,11 @@
   <% @cities.each do |city| %>
     <% unless city.coordinates.nil? %>
       L.circleMarker(L.latLng(<%= city.coordinates[0] %>, <%= city.coordinates[1] %>), {
-        radius: 10,
+        radius: <%= (20 * city.confirmed) / @max_confirmed %>,
         color: 'red',
         fillColor: 'red',
-        fillOpacity: 0.5
+        fillOpacity: 0.5,
+        weight: 0
       }).addTo(map);
     <% end %>
   <% end %>
