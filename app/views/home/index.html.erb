@@ -1,3 +1,14 @@
+<div id="location-map"></div>
+
+<div>
+  <span class="mdc-typography--caption"><strong>Ano:</strong> <%= Time.zone.now.year %></span><br/>
+  <span class="mdc-typography--caption">
+    <strong>Fonte:</strong> <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
+  </span>
+</div>
+
+<br/><hr/><br/>
+
 <canvas id="casesByDateChat"></canvas>
 <div>
   <span class="mdc-typography--caption"><strong>Ano:</strong> <%= Time.zone.now.year %></span><br/>
@@ -14,19 +25,8 @@
   <%= javascript_pack_tag 'chart', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
-<br/><hr/><br/>
-
-<div id="location-map"></div>
-
-<div>
-  <span class="mdc-typography--caption"><strong>Ano:</strong> <%= Time.zone.now.year %></span><br/>
-  <span class="mdc-typography--caption">
-    <strong>Fonte:</strong> <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
-  </span>
-</div>
-
 <script type="text/javascript">
-  var map = L.map('location-map').setView([<%= @brazil.coordinates[0] %>, <%= @brazil.coordinates[1] %>], 5);
+  var map = L.map('location-map').setView([<%= @brazil.coordinates[0] %>, <%= @brazil.coordinates[1] %>], 4);
 
   mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
 

@@ -87,9 +87,8 @@ li.mdc-list-item a .mdc-list-item__meta{
 #location-map{
   background: #fff;
   border: none;
-  height: 1100px;
+  height: 400px;
   width: 100%;
-
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
