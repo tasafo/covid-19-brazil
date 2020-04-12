@@ -13,7 +13,7 @@
     </thead>
     <tbody class="mdc-data-table__content">
     <% @cities.each do |city| %>
-      <tr class="mdc-data-table__row">
+      <tr class="mdc-data-table__row clickable" onclick="selectCity('<%= city._id %>')">
         <td class="mdc-data-table__cell"><%= city.name %></td>
         <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= city.confirmed %></td>
         <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= city.deaths %></td>
@@ -37,3 +37,11 @@
     <strong>Fonte:</strong> <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
   </span>
 </div>
+
+<% content_for :javascript do %>
+  <script>
+    function selectCity(city_id){
+      window.location = window.location.pathname + '/' + city_id
+    }
+  </script>
+<% end %>

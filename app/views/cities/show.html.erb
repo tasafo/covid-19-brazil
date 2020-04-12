@@ -1,0 +1,18 @@
+<p>Cidade: <%= @city.name %></p>
+<p>Casos confirmados: <%= @city.confirmed %></p>
+<p>Mortes: <%= @city.deaths %></p>
+
+<canvas id="casesByStateChart"></canvas>
+
+<span class="mdc-typography--caption">
+  <strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a>
+</span>
+
+<% content_for :javascript do %>
+<script>
+    var DATES = <%= raw @dates %>
+    var CASES = <%= raw @confirmed %>
+    var DEATHS = <%= raw @city_deaths %>
+  </script>
+  <%= javascript_pack_tag 'chart_by_state', 'data-turbolinks-track': 'reload' %>
+<% end %>

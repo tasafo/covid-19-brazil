@@ -98,3 +98,7 @@ li.mdc-list-item a .mdc-list-item__meta{
 #location-map img {
   max-width: initial;
 }
+
+.clickable{
+  cursor: pointer;
+}
