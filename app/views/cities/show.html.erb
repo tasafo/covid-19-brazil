@@ -2,11 +2,13 @@
 <p>Casos confirmados: <%= @city.confirmed %></p>
 <p>Mortes: <%= @city.deaths %></p>
 
-<canvas id="casesByStateChart"></canvas>
+<div class="panel mdc-elevation--z4">
+  <canvas id="casesByStateChart"></canvas>
 
-<span class="mdc-typography--caption">
-  <strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a>
-</span>
+  <span class="mdc-typography--caption">
+    <strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a>
+  </span>
+</div>
 
 <% content_for :javascript do %>
 <script>
