@@ -1,20 +1,24 @@
-<div id="location-map"></div>
-
-<div>
-  <span class="mdc-typography--caption"><strong>Ano:</strong> <%= Time.zone.now.year %></span><br/>
-  <span class="mdc-typography--caption">
-    <strong>Fonte:</strong> <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
-  </span>
+<div class="panel mdc-elevation--z4">
+  <div id="location-map" class="mdc-elevation--z4"></div>
+  <div>
+    <span class="mdc-typography--caption">Ano: <%= Time.zone.now.year %></span><br/>
+    <span class="mdc-typography--caption">
+      Fonte: <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
+    </span>
+  </div>
 </div>
 
-<br/><hr/><br/>
+<h4></h4>
 
-<canvas id="casesByDateChat"></canvas>
-<div>
-  <span class="mdc-typography--caption"><strong>Ano:</strong> <%= Time.zone.now.year %></span><br/>
-  <span class="mdc-typography--caption">
-    <strong>Fonte:</strong> <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a>
-  </span>
+<div class="panel mdc-elevation--z4">
+  <canvas id="casesByDateChat"></canvas>
+
+  <div>
+    <span class="mdc-typography--caption">Ano: <%= Time.zone.now.year %></span><br/>
+    <span class="mdc-typography--caption">
+      Fonte: <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
+    </span>
+  </div>
 </div>
 <% content_for :javascript do %>
   <script>
@@ -26,7 +30,7 @@
 <% end %>
 
 <script type="text/javascript">
-  var map = L.map('location-map').setView([<%= @brazil.coordinates[0] %>, <%= @brazil.coordinates[1] %>], 4);
+  var map = L.map('location-map', { scrollWheelZoom: false }).setView([<%= @brazil.coordinates[0] %>, <%= @brazil.coordinates[1] %>], 4);
 
   mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
 

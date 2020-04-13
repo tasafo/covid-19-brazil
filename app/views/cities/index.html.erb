@@ -1,9 +1,8 @@
-<div class="mdc-data-table">
+<div class="mdc-data-table panel mdc-elevation--z4">
+  <h2 class="mdc-typography--headline5"><%= @state.name %></h2>
+
   <table class="mdc-data-table__table">
     <thead>
-      <tr>
-        <caption><h2>Estado: <%= @state.name %></h2></caption>
-      </tr>
       <tr class="mdc-data-table__header-row">
         <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Cidade</th>
         <th class="mdc-data-table__header-cell mdc-data-table__header-cell--numeric" role="columnheader" scope="col">Casos</th>
@@ -34,7 +33,7 @@
 
 <div>
   <span class="mdc-typography--caption">
-    <strong>Fonte:</strong> <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
+    Fonte: <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
   </span>
 </div>
 
