@@ -45,6 +45,9 @@ class City
       city = City.find_by(ibge_code: last_update['city_ibge_code'])
 
       if city.present?
+        city_history = city.city_history
+        city_history.log = cities_row
+        city_history.save!
         city.update!(updated_params)
       else
         City.create!(created_params.merge(updated_params))
