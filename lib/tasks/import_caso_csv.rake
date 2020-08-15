@@ -1,8 +1,8 @@
 namespace :db do
   namespace :import do
     desc 'Import Caso CSV'
-    task :caso_csv, [:url] do |_task, args|
-      ImportCasoCsv.download(args[:url])
+    task caso_csv: :environment do
+      ImportCasoCsv.download(ENV['URL'])
     end
   end
 end

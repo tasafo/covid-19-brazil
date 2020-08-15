@@ -48,5 +48,5 @@ http://localhost:3000
 Copie o link do arquivo `caso.csv.gz` e execute o comando:
 
 ```bash
-rails db:import:caso_csv['https://data.brasil.io/dataset/covid19/caso.csv.gz']
+URL=https://data.brasil.io/dataset/covid19/caso.csv.gz rails db:import:caso_csv
 ```
