@@ -18,7 +18,7 @@ class City
   def self.setup
     results = Api::BrasilIo.dataset(1)
 
-    cities_log = results.select { |log| log['place_type'] == 'city' }
+    cities_log = results.select { |log| log['place_type'] == 'city' && log['city'] != 'Importados/Indefinidos' }
                         .group_by { |log| log['city_ibge_code'] }
 
     cities_log.each do |ibge_code, cities_row|

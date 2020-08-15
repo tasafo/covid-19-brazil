@@ -49,7 +49,7 @@ class ImportCasoCsv
 
       log = params.slice(:date, :confirmed, :deaths)
 
-      if record['place_type'] == 'city'
+      if record['place_type'] == 'city' && city_name != 'Importados/Indefinidos'
         if record['is_last'] == 'True'
           City.create(params.merge(log: [log]))
         else
