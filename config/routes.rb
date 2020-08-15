@@ -4,6 +4,6 @@ Rails.application.routes.draw do
 
   resources :states do
     get '/cities/', to: 'cities#index'
-    get 'cities/:id', to: 'cities#show'
+    get '/cities/:slug', to: 'cities#show'
   end
 end

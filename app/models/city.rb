@@ -1,54 +1,63 @@
 class City
   include Mongoid::Document
-  include Mongoid::Timestamps
-
-  has_one :city_history, autosave: true
 
   field :name, type: String
+  field :slug, type: String
   field :uf, type: String
   field :deaths, type: Integer, default: 0
   field :confirmed, type: Integer, default: 0
   field :ibge_code, type: Integer
-  field :confirmed_per_100k_inhabitants, type: BigDecimal, default: 0
   field :date, type: Date
-  field :death_rate, type: BigDecimal, default: 0
-  field :estimated_population_2019, type: Integer, default: 0
   field :coordinates, type: Array
+  field :log, type: Array
 
   index({ ibge_code: 1 }, { background: true })
   index({ uf: 1 }, { background: true })
+  index({ slug: 1 }, { background: true })
 
-  def self.setup(dataset = nil)
-    results = dataset.nil? ? Api::BrasilIo.dataset(1) : dataset
+  def self.setup
+    results = Api::BrasilIo.dataset(1)
 
-    cities_log = results.select { |h| h['place_type'] == 'city' }.group_by{ |h| h['city_ibge_code'] }
+    cities_log = results.select { |log| log['place_type'] == 'city' }
+                        .group_by { |log| log['city_ibge_code'] }
 
     cities_log.each do |ibge_code, cities_row|
-      last_update = cities_row.find { |h| h['is_last'] }
+      last_update = cities_row.find { |city| city['is_last'] }
+
+      city_name = last_update['city']
+      city_ibge_code = last_update['city_ibge_code']
+
+      filter_keys = %w[date confirmed deaths]
+      city_log_json = cities_row.map { |city| city.slice(*filter_keys) }
 
       updated_params = {
-        deaths: last_update['deaths'],
-        confirmed: last_update['confirmed'],
-        confirmed_per_100k_inhabitants: last_update['confirmed_per_100k_inhabitants'],
-        date: last_update['date'],
-        death_rate: last_update['death_rate']
+        deaths: last_update['deaths'].to_i,
+        confirmed: last_update['confirmed'].to_i,
+        date: last_update['date']
       }
 
       created_params = {
-        name: last_update['city'],
+        name: city_name,
+        slug: city_name.parameterize,
         uf: last_update['state'],
-        ibge_code: last_update['city_ibge_code'],
-        estimated_population_2019: last_update['estimated_population_2019'],
-        city_history: CityHistory.new(log: cities_row)
+        ibge_code: city_ibge_code.to_i,
+        log: [city_log_json]
       }
 
-      city = City.find_by(ibge_code: last_update['city_ibge_code'])
+      city = City.find_by(ibge_code: city_ibge_code)
 
       if city.present?
-        city_history = city.city_history
-        city_history.log = cities_row
-        city_history.save!
-        city.update!(updated_params)
+        city.update_attributes!(updated_params)
+
+        city_log_json.each do |log_json|
+          city_log_db = city.log
+          log_found = city_log_db.find { |log| log['date'] == log_json['date']}
+
+          unless log_found
+            city_log_db << log_json
+            city.save
+          end
+        end
       else
         City.create!(created_params.merge(updated_params))
       end
@@ -56,12 +65,20 @@ class City
   end
 
   def self.fill_coordinates
-    City.where(:coordinates.in => [nil]).each do |city|
-      state = State.find_by(uf: city.uf)
+    states = State.all.map { |state| state.attributes.slice('uf', 'name') }
+    cities = City.where(:ibge_code.nin => [0], :coordinates.in => [nil])
 
-      coordinates = Geocoder.search("#{city.name}, #{state.name}, Brazil").first&.coordinates
+    cities.each do |city|
+      state = select_state(states, city.uf)
+      search = "#{city.name}, #{state['name']}, Brazil"
 
-      city.update!(coordinates: coordinates) if coordinates
+      coordinates = Geocoder.search(search).first&.coordinates
+
+      city.update_attribute(:coordinates, coordinates) if coordinates
     end
+  end
+
+  def self.select_state(states, acronym)
+    states.select { |state_| state_['uf'] == acronym }.first
   end
 end

@@ -1,6 +1,5 @@
 class Country
   include Mongoid::Document
-  include Mongoid::Timestamps
 
   field :name, type: String
   field :deaths, type: Integer, default: 0
@@ -15,21 +14,22 @@ class Country
   def self.brazil_setup
     covid = Api::Covid19Brazil.new
     data = covid.brazil
+    country_name = data['country']
 
-    country = Country.find_by(name: data['country'])
+    country = Country.find_by(name: country_name)
 
     params = {
-      name: data['country'],
+      name: country_name,
       deaths: data['deaths'],
       confirmed: data['confirmed'],
       recovered: data['recovered'],
       active: data['cases'],
       datetime: data['updated_at'],
-      coordinates: Geocoder.search(data['country']).first&.coordinates
+      coordinates: Geocoder.search(country_name).first&.coordinates
     }
 
     if country.present?
-      country.update!(params)
+      country.update_attributes!(params)
     else
       Country.create!(params)
     end

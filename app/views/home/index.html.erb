@@ -1,7 +1,6 @@
 <div class="panel mdc-elevation--z4">
   <div id="location-map" class="mdc-elevation--z4"></div>
   <div>
-    <span class="mdc-typography--caption">Ano: <%= Time.zone.now.year %></span><br/>
     <span class="mdc-typography--caption">
       Fonte: <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
     </span>
@@ -14,7 +13,6 @@
   <canvas id="casesByDateChat"></canvas>
 
   <div>
-    <span class="mdc-typography--caption">Ano: <%= Time.zone.now.year %></span><br/>
     <span class="mdc-typography--caption">
       Fonte: <a href="https://brasil.io/dataset/covid19/caso" target="_blank">Brasil.IO</a>
     </span>
@@ -22,7 +20,7 @@
 </div>
 <% content_for :javascript do %>
   <script>
-    var DATES = <%= raw @cases_by_date.map { |c| c.date.strftime('%d/%m') } %>
+    var DATES = <%= raw @cases_by_date.map { |c| c.date.strftime('%d/%m/%y') } %>
     var CASES = <%= raw @cases_by_date.map { |c| c.cases } %>
     var DEATHS = <%= raw @cases_by_date.map { |c| c.deaths } %>
   </script>

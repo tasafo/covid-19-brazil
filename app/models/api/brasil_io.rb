@@ -31,9 +31,9 @@ class Api::BrasilIo
     api_dataset = Api::BrasilIo.new(page)
 
     if api_dataset.next.nil?
-      return api_dataset.results
+      api_dataset.results
     else
-      return api_dataset.results + dataset(page + 1)
+      api_dataset.results + dataset(page + 1)
     end
   end
 end

@@ -41,3 +41,12 @@ No navegador, abra o endereço:
 ```
 http://localhost:3000
 ```
+
+### Importar caso.csv para carga inicial de dados
+<https://data.brasil.io/dataset/covid19/_meta/list.html>
+
+Copie o link do arquivo `caso.csv.gz` e execute o comando:
+
+```bash
+rails db:import:caso_csv['https://data.brasil.io/dataset/covid19/caso.csv.gz']
+```

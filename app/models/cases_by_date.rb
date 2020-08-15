@@ -1,6 +1,5 @@
 class CasesByDate
   include Mongoid::Document
-  include Mongoid::Timestamps
 
   field :date, type: Date
   field :cases, type: Integer, default: 0
@@ -16,13 +15,13 @@ class CasesByDate
 
     initial_date = CasesByDate.count.zero? ? Date.parse('2020-02-25') : today
 
-    date_range = (initial_date..today).map { |d| d.strftime('%Y-%m-%d') }
+    date_range = (initial_date..today).map { |date| date.strftime('%Y-%m-%d') }
 
     date_range.each do |date|
       cases = covid.by_date(date)
 
       day = 0
-      while cases.empty? do
+      while cases.empty?
         prior_date = (Date.parse(date) - day += 1).to_s
         cases = covid.by_date(prior_date)
       end
@@ -38,7 +37,7 @@ class CasesByDate
       created_params = { date: date }
 
       if cases_by_date.present?
-        cases_by_date.update!(updated_params)
+        cases_by_date.update_attributes!(updated_params)
       else
         CasesByDate.create!(created_params.merge(updated_params))
       end

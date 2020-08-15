@@ -1,8 +1,5 @@
 class State
   include Mongoid::Document
-  include Mongoid::Timestamps
-
-  has_many :cities
 
   field :uf, type: String
   field :name, type: String
@@ -19,10 +16,11 @@ class State
     data = covid.states
 
     data.each do |state_data|
-      state = State.find_by(uf: state_data['uf'])
+      uf = state_data['uf']
+      state = State.find_by(uf: uf)
 
       params = {
-        uf: state_data['uf'],
+        uf: uf,
         name: state_data['state'],
         cases: state_data['cases'],
         deaths: state_data['deaths'],
@@ -32,7 +30,7 @@ class State
       }
 
       if state.present?
-        state.update!(params)
+        state.update_attributes!(params)
       else
         State.create!(params)
       end

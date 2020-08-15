@@ -12,7 +12,7 @@
     </thead>
     <tbody class="mdc-data-table__content">
     <% @cities.each do |city| %>
-      <tr class="mdc-data-table__row clickable" onclick="selectCity('<%= city._id %>')">
+      <tr class="mdc-data-table__row clickable" onclick="selectCity('<%= city.slug %>')">
         <td class="mdc-data-table__cell"><%= city.name %></td>
         <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= city.confirmed %></td>
         <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= city.deaths %></td>
@@ -39,8 +39,8 @@
 
 <% content_for :javascript do %>
   <script>
-    function selectCity(city_id){
-      window.location = window.location.pathname + '/' + city_id
+    function selectCity(slug) {
+      window.location = window.location.pathname + '/' + slug
     }
   </script>
 <% end %>

@@ -55,7 +55,7 @@
           <ul class="mdc-list">
             <% @states.each do |state| %>
               <li class="mdc-list-item">
-                <%= link_to state_cities_path(state.uf) do %>
+                <%= link_to state_cities_path(state.uf.downcase) do %>
                   <%= state.name %>
                   <span class='mdc-list-item__meta'><%= state.cases %></span>
                 <% end %>
