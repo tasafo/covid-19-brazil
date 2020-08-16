@@ -2,8 +2,9 @@ class CitiesController < ApplicationController
   def index
     @state = State.find_by(uf: params[:state_id].upcase)
     @cities = City.where(uf: @state.uf).order_by(confirmed: :desc)
-    @deaths_total = @cities.sum(:deaths)
-    @confirmed_total = @cities.sum(:confirmed)
+                  .pluck(:slug, :name, :confirmed, :deaths, :date)
+    @confirmed_total = @cities.map(&:third).sum
+    @deaths_total = @cities.map(&:fourth).sum
   end
 
   def show

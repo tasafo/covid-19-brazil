@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Language" content="pt-br">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= favicon_link_tag 'corona.png' %>
+    <%= favicon_link_tag "corona.png" %>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" >
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
@@ -30,11 +30,11 @@
 
           <h2 class="mdc-typography--headline4">Total de casos confirmados</h2>
 
-          <span class="total-confirmed"><%= number_with_delimiter(@total_confirmed, delimiter: '.') %></span>
+          <span class="total-confirmed"><%= number_with_delimiter(@brazil.confirmed, delimiter: '.') %></span>
 
-          <h3 class="mdc-typography--headline5">Total de mortes: <%= number_with_delimiter(@deaths, delimiter: '.') %></h3>
+          <h3 class="mdc-typography--headline5">Total de mortes: <%= number_with_delimiter(@brazil.deaths, delimiter: '.') %></h3>
 
-          <h3 class="mdc-typography--headline5">Casos recuperados: <%= number_with_delimiter(@recovered, delimiter: '.') %></h3>
+          <h3 class="mdc-typography--headline5">Casos recuperados: <%= number_with_delimiter(@brazil.recovered, delimiter: '.') %></h3>
 
           <span class="mdc-typography--caption">
             Fonte: <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a>
