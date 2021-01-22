@@ -19,7 +19,9 @@ class City
     results = Api::BrasilIo.dataset(1)
 
     cities_log = results.select { |log| log['place_type'] == 'city' && log['city'] != 'Importados/Indefinidos' }
-                        .group_by { |log| log['city_ibge_code'] }
+                        .group_by { |log| log['city_ibge_code'] } if results
+
+    return unless cities_log
 
     cities_log.each do |ibge_code, cities_row|
       last_update = cities_row.find { |city| city['is_last'] }
@@ -48,10 +50,10 @@ class City
 
       if city.present?
         city.update_attributes!(updated_params)
+        city_log_db = city.log
 
         city_log_json.each do |log_json|
-          city_log_db = city.log
-          log_found = city_log_db.find { |log| log['date'] == log_json['date']}
+          log_found = city_log_db.find { |log| log['date'] == log_json['date'] }
 
           unless log_found
             city_log_db << log_json

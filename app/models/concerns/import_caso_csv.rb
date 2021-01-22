@@ -6,13 +6,15 @@ class ImportCasoCsv
     file_csv = file_gz.delete_suffix('.gz')
 
     begin
-      puts "> Realizando o download de #{url}..."
+      unless File.exist?(file_csv)
+        puts "> Realizando o download de #{url}..."
 
-      URI.open(file_gz, 'wb') do |file|
-        file << URI.open(url).read
+        URI.open(file_gz, 'wb') do |file|
+          file << URI.open(url).read
+        end
+
+        system "gunzip #{file_gz}"
       end
-
-      system "gunzip #{file_gz}"
 
       run(file_csv)
 
@@ -44,19 +46,18 @@ class ImportCasoCsv
         ibge_code: city_ibge_code,
         deaths: record['deaths'].to_i,
         confirmed: record['confirmed'].to_i,
-        date: date
+        date: date,
+        log: []
       }
 
       log = params.slice(:date, :confirmed, :deaths)
 
       if record['place_type'] == 'city' && city_name != 'Importados/Indefinidos'
-        if record['is_last'] == 'True'
-          City.create(params.merge(log: [log]))
-        else
-          city = City.find_by(ibge_code: city_ibge_code)
-          city.log << log
-          city.save
-        end
+        city = City.create_with(params)
+                   .find_or_create_by(ibge_code: city_ibge_code)
+
+        city.log << log
+        city.save
       end
     end
   end
