@@ -14,8 +14,8 @@
     <% @cities.each do |city| %>
       <tr class="mdc-data-table__row clickable" onclick="selectCity('<%= city[0] %>')">
         <td class="mdc-data-table__cell"><%= city[1] %></td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= city[2] %></td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= city[3] %></td>
+        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= number_with_delimiter(city[2], delimiter: '.') %></td>
+        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= number_with_delimiter(city[3], delimiter: '.') %></td>
         <td class="mdc-data-table__cell"><%= city[4].strftime('%d/%m/%Y') %></td>
       </tr>
     <% end %>
