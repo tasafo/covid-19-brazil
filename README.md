@@ -1,7 +1,7 @@
 # Covid-19 Brazil
 
 ## Pré-requisitos
-- [Ruby 2.7.1](http://www.ruby-lang.org)
+- [Ruby 3](http://www.ruby-lang.org)
 - [Yarn](https://yarnpkg.com/getting-started/install)
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
