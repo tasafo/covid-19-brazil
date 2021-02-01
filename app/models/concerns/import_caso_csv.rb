@@ -31,9 +31,14 @@ class ImportCasoCsv
                 is_last estimated_population_2019 city_ibge_code
                 confirmed_per_100k_inhabitants death_rate]
 
-    puts "> Importando dados de #{file_path}..."
+    puts "> Importando dados de #{file_path} ..."
+
+    lines = IO.readlines(file_path).size
+    line = 1
 
     CSV.foreach(file_path) do |row|
+      puts "> Registro #{line} / #{lines}"
+
       record = Hash[*fields.zip(row).flatten]
       city_name = record['city'].to_s
       city_ibge_code = record['city_ibge_code'].to_i
@@ -59,6 +64,8 @@ class ImportCasoCsv
         city.log << log
         city.save
       end
+
+      line += 1
     end
   end
 end
