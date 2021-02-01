@@ -11,6 +11,7 @@ class City
   field :coordinates, type: Array
   field :log, type: Array
 
+  index({ confirmed: 1 }, { background: true })
   index({ ibge_code: 1 }, { background: true })
   index({ uf: 1 }, { background: true })
   index({ slug: 1 }, { background: true })
