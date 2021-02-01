@@ -1,10 +1,13 @@
 class Api::BrasilIo
   include HTTParty
 
-  base_uri 'https://brasil.io/api/dataset/covid19'
+  base_uri 'https://api.brasil.io/dataset/covid19'
 
   def initialize(page)
-    @options = { query: { format: 'json', page: page } }
+    @options = {
+      headers: { 'Authorization' => "Token #{ENV['BRASILIO_TOKEN']}" },
+      query: { format: 'json', page: page }
+    }
   end
 
   def caso
@@ -30,10 +33,6 @@ class Api::BrasilIo
   def self.dataset(page)
     api_dataset = Api::BrasilIo.new(page)
 
-    if api_dataset.next.nil?
-      api_dataset.results
-    else
-      api_dataset.results + dataset(page + 1)
-    end
+    api_dataset.results
   end
 end
