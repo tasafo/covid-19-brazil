@@ -42,11 +42,17 @@ No navegador, abra o endereço:
 http://localhost:3000
 ```
 
-### Importar caso.csv para carga inicial de dados
+## Ambiente de produção
+
+### Importar carga de dados
 <https://data.brasil.io/dataset/covid19/_meta/list.html>
 
-Copie o link do arquivo `caso.csv.gz` e execute o comando:
+Execute os comandos:
 
 ```bash
+rails db:mongoid:create_indexes
+
 URL=https://data.brasil.io/dataset/covid19/caso.csv.gz rails db:import:caso_csv
+
+rails db:seed
 ```

@@ -7,7 +7,7 @@ class ImportCasoCsv
 
     begin
       unless File.exist?(file_csv)
-        puts "> Realizando o download de #{url}..."
+        puts "> Realizando o download de #{url} ..."
 
         URI.open(file_gz, 'wb') do |file|
           file << URI.open(url).read
@@ -18,54 +18,78 @@ class ImportCasoCsv
 
       run(file_csv)
 
-      File.delete(file_csv) if File.exist?(file_csv)
+      delete_file(file_csv)
+      delete_file("#{file_csv}.tmp")
     rescue OpenURI::HTTPError => e
-      File.delete(file_gz) if File.exist?(file_gz)
+      delete_file(file_gz)
       puts "Erro: #{e.message}"
       puts "Não foi possível realizar o download do arquivo #{url}"
     end
   end
 
   def self.run(file_path)
-    fields = %w[date state city place_type confirmed deaths order_for_place
-                is_last estimated_population_2019 city_ibge_code
-                confirmed_per_100k_inhabitants death_rate]
+    fields = line_number(file_path, 0)
+    tmp_file = "#{file_path}.tmp"
+    state_city = ''
+    logs = []
+
+    system "sed '/^date/d; /,,state/d; /Indefinidos/d;' #{file_path} > #{tmp_file}"
+
+    lines = IO.readlines(tmp_file).size
+    line = 1
 
     puts "> Importando dados de #{file_path} ..."
 
-    lines = IO.readlines(file_path).size
-    line = 1
-
-    CSV.foreach(file_path) do |row|
+    CSV.foreach(tmp_file) do |row|
       puts "> Registro #{line} / #{lines}"
 
       record = Hash[*fields.zip(row).flatten]
+
+      state = record['state']
       city_name = record['city'].to_s
       city_ibge_code = record['city_ibge_code'].to_i
       date = record['date']
+      deaths = record['deaths'].to_i
+      confirmed = record['confirmed'].to_i
 
-      params = {
-        name: city_name,
-        slug: city_name.parameterize,
-        uf: record['state'],
-        ibge_code: city_ibge_code,
-        deaths: record['deaths'].to_i,
-        confirmed: record['confirmed'].to_i,
-        date: date,
-        log: []
-      }
+      if record['is_last'] == 'True'
+        if line != 1 && state_city != "#{state}-#{city_name}"
+          update_city(logs)
+          state_city = "#{state}-#{city_name}"
+          logs = []
+        end
 
-      log = params.slice(:date, :confirmed, :deaths)
+        params = {
+          name: city_name,
+          slug: city_name.parameterize,
+          uf: state,
+          ibge_code: city_ibge_code,
+          deaths: deaths,
+          confirmed: confirmed,
+          date: date
+        }
 
-      if record['place_type'] == 'city' && city_name != 'Importados/Indefinidos'
-        city = City.create_with(params)
-                   .find_or_create_by(ibge_code: city_ibge_code)
-
-        city.log << log
-        city.save
+        City.create(params)
       end
+
+      logs << { date: date, confirmed: confirmed, deaths: deaths }
+
+      update_city(logs) if line == lines
 
       line += 1
     end
+  end
+
+  def self.line_number(file, number)
+    IO.readlines(file, chomp: true)[number].split(',')
+  end
+
+  def self.delete_file(file)
+    File.delete(file) if File.exist?(file)
+  end
+
+  def self.update_city(logs)
+    city = City.last
+    city.update(log: logs)
   end
 end

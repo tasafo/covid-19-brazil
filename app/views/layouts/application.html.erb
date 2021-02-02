@@ -25,7 +25,7 @@
       <div class="mdc-layout-grid__inner">
         <div class="mdc-layout-grid__cell bottom mdc-layout-grid__cell--span-3 mdc-layout-grid__cell--span-12-phone sidebar">
           <h1 class="mdc-typography--headline3"><a href="/">COVID-19 Brasil</a></h1>
-
+          <% if @brazil %>
           <hr/>
 
           <h2 class="mdc-typography--headline4">Total de casos confirmados</h2>
@@ -35,7 +35,7 @@
           <h3 class="mdc-typography--headline5">Total de mortes: <%= number_with_delimiter(@brazil.deaths, delimiter: '.') %></h3>
 
           <h3 class="mdc-typography--headline5">Casos recuperados: <%= number_with_delimiter(@brazil.recovered, delimiter: '.') %></h3>
-
+          <% end %>
           <span class="mdc-typography--caption">
             Fonte: <a href="https://covid19-brazil-api.now.sh/" target="_blank">Covid19 Brazil API</a>
           </span>

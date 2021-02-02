@@ -27,6 +27,7 @@
   <%= javascript_pack_tag 'chart', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
+<% if @brazil %>
 <script type="text/javascript">
   var map = L.map('location-map', { scrollWheelZoom: false }).setView([<%= @brazil.coordinates[0] %>, <%= @brazil.coordinates[1] %>], 4);
 
@@ -50,3 +51,4 @@
     <% end %>
   <% end %>
 </script>
+<% end %>

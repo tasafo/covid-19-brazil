@@ -44,7 +44,7 @@ class City
         slug: city_name.parameterize,
         uf: last_update['state'],
         ibge_code: city_ibge_code.to_i,
-        log: [city_log_json]
+        log: city_log_json
       }
 
       city = City.find_by(ibge_code: city_ibge_code)
@@ -71,11 +71,15 @@ class City
     states = State.all.map { |state| state.attributes.slice('uf', 'name') }
     cities = City.where(:ibge_code.nin => [0], :coordinates.in => [nil])
 
+    puts "Cidades: #{cities.count}"
+
     cities.each do |city|
       state = select_state(states, city.uf)
       search = "#{city.name}, #{state['name']}, Brazil"
 
-      coordinates = Geocoder.search(search).first&.coordinates
+      puts "Buscando #{search} ..."
+
+      coordinates = geo_search(search, state['uf'])
 
       city.update_attribute(:coordinates, coordinates) if coordinates
     end
@@ -83,5 +87,23 @@ class City
 
   def self.select_state(states, acronym)
     states.select { |state_| state_['uf'] == acronym }.first
+  end
+
+  def self.geo_search(search, state)
+    coordinates = Geocoder.search(search).first&.coordinates
+
+    unless coordinates
+      new_search = search.split(',')
+      new_search[1] = " #{state}"
+      coordinates = Geocoder.search(new_search.join(',')).first&.coordinates
+    end
+
+    unless coordinates
+      new_search = search.split(',')
+      new_search.delete_at(1)
+      coordinates = Geocoder.search(new_search.join(',')).first&.coordinates
+    end
+
+    coordinates
   end
 end
