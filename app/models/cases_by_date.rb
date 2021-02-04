@@ -18,6 +18,8 @@ class CasesByDate
     date_range = (initial_date..today).map { |date| date.strftime('%Y-%m-%d') }
 
     date_range.each do |date|
+      puts "> Processando data #{date} ..."
+
       cases = covid.by_date(date)
 
       day = 0

@@ -1,7 +1,14 @@
 require 'open-uri'
 
 class ImportCasoCsv
-  def self.download(url)
+  def self.download(date_filter = nil)
+    url = ENV['URL']
+
+    if url.blank?
+      puts 'Informe a URL para realizar o download'
+      exit 0
+    end
+
     file_gz = url.split('/').last
     file_csv = file_gz.delete_suffix('.gz')
 
@@ -16,7 +23,7 @@ class ImportCasoCsv
         system "gunzip #{file_gz}"
       end
 
-      run(file_csv)
+      run(file_csv, date_filter)
 
       delete_file(file_csv)
       delete_file("#{file_csv}.tmp")
@@ -27,13 +34,15 @@ class ImportCasoCsv
     end
   end
 
-  def self.run(file_path)
+  def self.run(file_path, date_filter = nil)
     fields = line_number(file_path, 0)
     tmp_file = "#{file_path}.tmp"
     state_city = ''
     logs = []
+    city = nil
 
     system "sed '/^date/d; /,,state/d; /Indefinidos/d;' #{file_path} > #{tmp_file}"
+    system "sed -i '/#{date_filter}/!d;' #{tmp_file}" if date_filter
 
     lines = IO.readlines(tmp_file).size
     line = 1
@@ -51,11 +60,13 @@ class ImportCasoCsv
       date = record['date']
       deaths = record['deaths'].to_i
       confirmed = record['confirmed'].to_i
+      new_state_city = "#{state}-#{city_name}"
 
-      if record['is_last'] == 'True'
-        if line != 1 && state_city != "#{state}-#{city_name}"
-          update_city(logs)
-          state_city = "#{state}-#{city_name}"
+      if state_city != new_state_city
+        state_city = new_state_city
+
+        if line != 1
+          city.update_log(logs, date_filter)
           logs = []
         end
 
@@ -66,15 +77,22 @@ class ImportCasoCsv
           ibge_code: city_ibge_code,
           deaths: deaths,
           confirmed: confirmed,
-          date: date
+          date: date,
+          log: []
         }
 
-        City.create(params)
+        city = City.find_by(ibge_code: city_ibge_code)
+
+        if city
+          city.update(params.slice(:date, :confirmed, :deaths))
+        else
+          city = City.create(params)
+        end
       end
 
       logs << { date: date, confirmed: confirmed, deaths: deaths }
 
-      update_city(logs) if line == lines
+      city.update_log(logs, date_filter) if line == lines
 
       line += 1
     end
@@ -86,10 +104,5 @@ class ImportCasoCsv
 
   def self.delete_file(file)
     File.delete(file) if File.exist?(file)
-  end
-
-  def self.update_city(logs)
-    city = City.last
-    city.update(log: logs)
   end
 end
