@@ -23,8 +23,8 @@
     <tfoot>
       <tr class="mdc-data-table__row">
         <td class="mdc-data-table__header-cell">TOTAL</td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= @confirmed_total %></td>
-        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= @deaths_total %></td>
+        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= number_with_delimiter(@confirmed_total, delimiter: '.') %></td>
+        <td class="mdc-data-table__cell mdc-data-table__cell--numeric"><%= number_with_delimiter(@deaths_total, delimiter: '.') %></td>
         <td class="mdc-data-table__cell"></td>
       </tr>
     </tfoot>

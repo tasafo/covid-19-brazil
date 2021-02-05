@@ -1,6 +1,6 @@
 <p><b>Cidade:</b> <%= @city.name %></p>
-<p><b>Casos confirmados:</b> <%= @city.confirmed %></p>
-<p><b>Mortes:</b> <%= @city.deaths %></p>
+<p><b>Casos confirmados:</b> <%= number_with_delimiter(@city.confirmed, delimiter: '.') %></p>
+<p><b>Mortes:</b> <%= number_with_delimiter(@city.deaths, delimiter: '.') %></p>
 
 <div class="panel mdc-elevation--z4">
   <canvas id="casesByStateChart"></canvas>
