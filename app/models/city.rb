@@ -42,7 +42,9 @@ class City
 
   def self.fill_coordinates
     states = State.all.map { |state| state.attributes.slice('uf', 'name') }
-    cities = City.where(:ibge_code.nin => [0], :coordinates.in => [nil])
+    cities = City.batch_size(1000).no_timeout
+                 .where(:ibge_code.nin => [0], :coordinates.in => [nil])
+                 .only(:name, :uf, :coordinates)
 
     puts "Cidades: #{cities.count}"
 
