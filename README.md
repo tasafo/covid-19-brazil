@@ -19,7 +19,7 @@ yarn install
 
 rails db:mongoid:create_indexes
 
-URL=https://data.brasil.io/dataset/covid19/caso.csv.gz
+export URL=https://data.brasil.io/dataset/covid19/caso.csv.gz
 
 rails db:seed
 ```
@@ -54,7 +54,7 @@ Execute os comandos:
 ```bash
 rails db:mongoid:create_indexes
 
-URL=https://data.brasil.io/dataset/covid19/caso.csv.gz
+export URL=https://data.brasil.io/dataset/covid19/caso.csv.gz
 
 rails db:import:caso_csv
 
