@@ -26,7 +26,7 @@ rails db:seed
 
 ### Execução
 
-Em um terminal, para subir containers MongoDB e Redis, execute:
+Em um terminal, para subir o container do MongoDB, execute:
 
 ```bash
 docker-compose up

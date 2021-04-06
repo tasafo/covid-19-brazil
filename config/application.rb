@@ -1,6 +1,6 @@
-require_relative 'boot'
+require_relative "boot"
 
-# require "rails"
+require "rails"
 # Pick the frameworks you want:
 require "active_model/railtie"
 # require "active_job/railtie"
@@ -22,16 +22,15 @@ Bundler.require(*Rails.groups)
 module Coronavirus
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
-
-    # Don't generate system test files.
-    config.generators.system_tests = nil
-
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
     config.time_zone = 'Brasilia'
   end
 end

@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.0.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'railties', '~> 6.0'
+gem 'railties', '~> 6.1'
 # Use Puma as the app server
 gem 'puma'
 gem 'mongoid', '~> 7.2'
