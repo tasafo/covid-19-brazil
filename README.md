@@ -32,6 +32,12 @@ Em um terminal, para subir o container do MongoDB, execute:
 docker-compose up
 ```
 
+Em um terminal, execute:
+
+```bash
+bin/webpack-dev-server server
+```
+
 Em outro terminal, execute:
 
 ```bash
