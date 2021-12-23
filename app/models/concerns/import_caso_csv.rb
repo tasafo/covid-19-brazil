@@ -16,9 +16,7 @@ class ImportCasoCsv
       unless File.exist?(file_csv)
         puts "> Realizando o download de #{url} ..."
 
-        URI.open(file_gz, 'wb') do |file|
-          file << URI.open(url).read
-        end
+        IO.copy_stream(URI.parse(url).open, file_gz)
 
         system "gunzip #{file_gz}"
       end
@@ -44,7 +42,7 @@ class ImportCasoCsv
     system "sed '/^date/d; /,,state/d; /Indefinidos/d;' #{file_path} > #{tmp_file}"
     system "sed -i '/#{date_filter}/!d;' #{tmp_file}" if date_filter
 
-    lines = IO.readlines(tmp_file).size
+    lines = File.readlines(tmp_file).size
     line = 1
 
     puts "> Importando dados de #{file_path} ..."
@@ -70,16 +68,9 @@ class ImportCasoCsv
           logs = []
         end
 
-        params = {
-          name: city_name,
-          slug: city_name.parameterize,
-          uf: state,
-          ibge_code: city_ibge_code,
-          deaths: deaths,
-          confirmed: confirmed,
-          date: date,
-          log: []
-        }
+        params = { name: city_name, slug: city_name.parameterize,
+                   uf: state, ibge_code: city_ibge_code, deaths: deaths,
+                   confirmed: confirmed, date: date, log: [] }
 
         city = City.find_by(ibge_code: city_ibge_code)
 
@@ -99,7 +90,7 @@ class ImportCasoCsv
   end
 
   def self.line_number(file, number)
-    IO.readlines(file, chomp: true)[number].split(',')
+    File.readlines(file, chomp: true)[number].split(',')
   end
 
   def self.delete_file(file)

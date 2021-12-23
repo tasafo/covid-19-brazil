@@ -30,9 +30,9 @@ class CasesByDate
 
       cases_by_date = CasesByDate.find_by(date: date)
 
-      total = cases.sum { |h| h['cases'] }
-      deaths = cases.sum { |h| h['deaths'] }
-      suspects = cases.sum { |h| h['suspects'] }
+      total = sum_record(cases, 'cases')
+      deaths = sum_record(cases, 'deaths')
+      suspects = sum_record(cases, 'suspects')
 
       updated_params = { cases: total, suspects: suspects, deaths: deaths }
 
@@ -44,5 +44,9 @@ class CasesByDate
         CasesByDate.create!(created_params.merge(updated_params))
       end
     end
+  end
+
+  def self.sum_record(list, name)
+    list.sum { |record| record[name] }
   end
 end

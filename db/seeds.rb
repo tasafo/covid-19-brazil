@@ -1,14 +1,14 @@
-puts "> Estados..."
+puts '> Estados...'
 State.setup
 
-puts "> Casos por data..."
+puts '> Casos por data...'
 CasesByDate.setup
 
-puts "> Paises..."
+puts '> Paises...'
 Country.brazil_setup
 
-puts "> Cidades..."
+puts '> Cidades...'
 City.setup
 
-puts "> Coordenadas das cidades..."
+puts '> Coordenadas das cidades...'
 City.fill_coordinates

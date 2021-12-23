@@ -67,9 +67,9 @@ class City
   def self.geo_search(search, state)
     coordinates = Geocoder.search(search).first&.coordinates
 
-    coordinates = coord(search, state, 1) unless coordinates
+    coordinates ||= coord(search, state, 1)
 
-    coordinates = coord(search, nil, 2) unless coordinates
+    coordinates ||= coord(search, nil, 2)
 
     coordinates
   end
