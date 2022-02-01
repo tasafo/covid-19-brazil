@@ -35,7 +35,7 @@ docker-compose up
 Em um terminal, execute:
 
 ```bash
-bin/webpack-dev-server server
+bin/webpack-dev-server
 ```
 
 Em outro terminal, execute:
